@@ -1,9 +1,10 @@
+name: openclaw
 services:
-  pockettts:
+  pockettts-cpp:
     build:
       context: .
       dockerfile: Dockerfile
-    image: openclaw-pockettts-cpp:${POCKETTTS_TAG:-local}
+    image: pockettts-cpp:${POCKETTTS_TAG:-local}
     ports:
       - "${POCKETTTS_BIND:-127.0.0.1}:${POCKETTTS_PORT:-8711}:8000"
     restart: unless-stopped

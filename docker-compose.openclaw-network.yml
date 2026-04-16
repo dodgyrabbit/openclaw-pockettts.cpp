@@ -1,9 +1,10 @@
+name: openclaw
 services:
-  pockettts:
+  pockettts-cpp:
     build:
       context: .
       dockerfile: Dockerfile
-    image: openclaw-pockettts-cpp:${POCKETTTS_TAG:-local}
+    image: pockettts-cpp:${POCKETTTS_TAG:-local}
     restart: unless-stopped
     read_only: true
     tmpfs:
@@ -23,8 +24,6 @@ services:
       start_period: 120s
     networks:
       openclaw_net:
-        aliases:
-          - pockettts
 
 networks:
   openclaw_net:
