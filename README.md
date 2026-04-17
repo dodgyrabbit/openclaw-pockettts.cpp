@@ -25,7 +25,7 @@ It is a multi-stage image that:
 ## Build the container
 Before we can start the container and configure OpenClaw, we need to build the Docker container. This should take a few minutes. Note that it will download the required model, convert it to ONNX format and configure a default voice.
 ```bash
- docker build -t pockettts-cpp:local -f Dockerfile .
+ docker build -t pockettts-cpp:local .
 ```
 
 There are two scenarios for your next step and this depends on how you installed OpenClaw. If you're running it directly on the host machine, read the next section, otherwise skip to [OpenClaw in Docker](#openclaw-in-docker).
