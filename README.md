@@ -89,6 +89,35 @@ docker compose -f docker-compose.openclaw-network.yml up -d
 
 This will create the container, alias it as `pockettts-cpp` and bind it to the default OpenClaw docker network `openclaw_default`. This is relevant to understand, since when we configure our TTS in OpenClaw, we address it by the service name `pockettts-cpp`.
 
+It's a bit more difficult to test this configuration, since we're keeping the TTS container on the private Docker network between OpenClaw and pockettts-cpp.
+
+We're going to temporarily create a proxy:
+Using a Socat (Socket Cat) container acts as a network bridge. It sits on the internal Docker network and tunnels traffic from a port on your host machine directly to the TTS container inside the private network.
+
+In one terminal run this:
+```shell
+docker run --rm -it \
+  --name openclaw-proxy \
+  --network openclaw_default \
+  -p 8711:8000 \
+  alpine/socat \
+  tcp-listen:8000,fork,reuseaddr tcp:pockettts-cpp:8000
+```
+
+In another terminal, you can now test the TTS server:
+```shell
+curl -X POST http://localhost:8711/v1/audio/speech \
+  -H "Content-Type: application/json" \
+  -d '{
+    "input": "Hello from the native OpenClaw test",
+    "voice": "alba",
+    "response_format": "wav"
+  }' \
+  --output output.wav
+```
+
+You can `Ctrl+C` in the first terminal (running openclaw-proxy) to stop the proxy container.
+
 ### Configure OpenClaw
 
 This section assumes you've installed [ClawDock](https://docs.openclaw.ai/install/clawdock#clawdock).
