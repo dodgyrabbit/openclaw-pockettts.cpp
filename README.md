@@ -18,15 +18,16 @@ It is a multi-stage image that:
 
 - builds `PocketTTS.cpp` from source
 - exports/converts PocketTTS models to ONNX
-- downloads a default voice sample (`alba`)
-- pre-warms voice cache (`voices/.cache`) during build
+- expects voice samples in the local `voices/` folder (bind-mounted into the container at runtime)
 - runs the PocketTTS.cpp **HTTP server** at container startup
 
 ## Build the container
-Before we can start the container and configure OpenClaw, we need to build the Docker container. This should take a few minutes. Note that it will download the required model, convert it to ONNX format and configure a default voice.
+Before we can start the container and configure OpenClaw, we need to build the Docker container. This should take a few minutes. Note that it will download the required model and convert it to ONNX format. Voice files are supplied from your local `voices/` folder when you run the container.
 ```bash
  docker build -t pockettts-cpp:local .
 ```
+
+Make sure your local `voices/` folder contains at least one voice sample before starting the container. The default configuration expects a voice named `alba` (for example `voices/alba`).
 
 There are two scenarios for your next step and this depends on how you installed OpenClaw. If you're running it directly on the host machine, read the next section, otherwise skip to [OpenClaw in Docker](#openclaw-in-docker).
 
@@ -157,5 +158,6 @@ clawdock-cli gateway restart
 
 ## Notes
 
-- Voice/cache persistence is via named volume mounted at `/app/voices`.
+- Voice files are stored in the local `./voices` folder, bind-mounted to `/app/voices`.
+- If PocketTTS.cpp generates cache files alongside the voices, they will also appear in that local folder.
 - Image defaults to HTTP server mode (`--server --port 8000`).

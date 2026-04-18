@@ -15,7 +15,7 @@ services:
       - ALL
     pids_limit: 256
     volumes:
-      - pockettts_cpp_voices:/app/voices
+      - ./voices:/app/voices
     healthcheck:
       test: ["CMD", "curl", "-fsS", "http://127.0.0.1:8000/health"]
       interval: 30s
@@ -30,5 +30,3 @@ networks:
     external: true
     name: ${OPENCLAW_NETWORK:-openclaw_default}
 
-volumes:
-  pockettts_cpp_voices:

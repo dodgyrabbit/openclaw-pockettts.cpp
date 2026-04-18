@@ -17,7 +17,7 @@ services:
       - ALL
     pids_limit: 256
     volumes:
-      - pockettts_cpp_voices:/app/voices
+      - ./voices:/app/voices
     healthcheck:
       test: ["CMD", "curl", "-fsS", "http://127.0.0.1:8000/health"]
       interval: 30s
@@ -25,5 +25,3 @@ services:
       retries: 10
       start_period: 120s
 
-volumes:
-  pockettts_cpp_voices:
