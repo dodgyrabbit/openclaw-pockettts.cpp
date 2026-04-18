@@ -99,4 +99,4 @@ HEALTHCHECK --interval=30s --timeout=5s --start-period=120s --retries=10 \
   CMD curl -fsS http://127.0.0.1:8000/health >/dev/null || exit 1
 
 ENTRYPOINT ["/usr/bin/tini", "--"]
-CMD ["/app/pocket-tts", "--server", "--port", "8000", "--models-dir", "/app/models", "--voices-dir", "/app/voices", "--tokenizer", "/app/models/tokenizer.model"]
+CMD ["/app/pocket-tts", "--server", "--lsd-steps", "8", "--port", "8000", "--models-dir", "/app/models", "--voices-dir", "/app/voices", "--tokenizer", "/app/models/tokenizer.model"]
